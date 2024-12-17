@@ -1,27 +1,42 @@
 package com.example.controller;
 
+import java.io.File;
 import java.io.IOException;
+import java.lang.annotation.Annotation;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.Date;
 
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
 
 import com.example.model.bean.User;
 import com.example.model.bo.UserBO;
 
 @WebServlet("/editprofile")
+@MultipartConfig(
+    fileSizeThreshold = 1024 * 1024 * 2, // 2MB
+    maxFileSize = 1024 * 1024 * 10,     // 10MB
+    maxRequestSize = 1024 * 1024 * 50,  // 50MB
+    location = "D:\\workspace\\bt-ltm\\ltm\\src\\main\\webapp\\images\\"
+)
 public class editProfileServlet extends HttpServlet {
     UserBO userBO = new UserBO();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = (String) request.getSession().getAttribute("user");
-        String role = (String) request.getSession().getAttribute("role");
         try {
-            User user = userBO.getUser(username);
-            request.setAttribute("user", user);
+            if(username != null){
+                User user = userBO.getUser(username);
+                request.setAttribute("user", user);
+            }else{
+                response.sendRedirect("login");
+            }
         } catch (Exception e) {
             
         }
@@ -31,33 +46,41 @@ public class editProfileServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String ten = request.getParameter("ten");
-        System.out.println(username);
-        System.out.println(password);
-        System.out.println(ten);
+        String username = (String) request.getSession().getAttribute("user");
 
+        if(username != null){
+            processUpdate(username, request, response);
+        }
+    }
+
+    private void processUpdate(String username, HttpServletRequest request, HttpServletResponse response)
+            throws IOException, ServletException {
+
+        String ten = request.getParameter("ten");
         Date ngaysinh = Date.valueOf(request.getParameter("ngaysinh"));
-        String diachi = request.getParameter("diachi");
         String sdt = request.getParameter("sdt");
+        String diachi = request.getParameter("diachi");
         String truonghoc = request.getParameter("truonghoc");
 
-        String anhthe = request.getParameter("anhthe");
+        Part filePart = request.getPart("fileInput");
+        String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
 
-        if(anhthe == null){
-            anhthe = "https://sbcf.fr/wp-content/uploads/2018/03/sbcf-default-avatar.png";
+        String anhthe = null;
+        if(!fileName.equals("")){
+
+            filePart.write(fileName);
+            anhthe = "images/" + fileName;
         }
-        
-        User newUser = new User(username, password, ten, ngaysinh, sdt, diachi, truonghoc, anhthe, anhthe);
 
+
+        User user = new User(ten, ngaysinh, sdt, diachi, truonghoc, anhthe);
         try {
-            userBO.addUser(newUser);
-
-            response.sendRedirect("login"); 
+            userBO.updateUser(user, username, response);
         } catch (Exception e) {
             
         }
+
+        response.sendRedirect("profile"); 
     }
 }
 

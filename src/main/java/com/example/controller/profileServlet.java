@@ -20,8 +20,12 @@ public class profileServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String username = (String) request.getSession().getAttribute("user");
         try {
-            User user = userBO.getUser(username);
-            request.setAttribute("user", user);
+            if(username != null){
+                User user = userBO.getUser(username);
+                request.setAttribute("user", user);
+            }else{
+                response.sendRedirect("login");
+            }
         } catch (Exception e) {
             
         }

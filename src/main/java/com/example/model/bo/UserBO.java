@@ -1,6 +1,9 @@
 package com.example.model.bo;
 
+import java.io.IOException;
 import java.sql.SQLException;
+
+import javax.servlet.http.HttpServletResponse;
 
 import com.example.model.bean.User;
 import com.example.model.dao.UserDAO;
@@ -25,5 +28,9 @@ public class UserBO {
 
     public void addUser(User user) throws ClassNotFoundException, SQLException{
         userDAO.addUser(user);
+    }
+
+    public void updateUser(User user, String username, HttpServletResponse response) throws ClassNotFoundException, SQLException, IOException{
+        userDAO.updateUser(user, username, response);
     }
 }

@@ -104,12 +104,17 @@ session="true" %>
     <div class="edit-container">
       <h2>Chỉnh Sửa Thông Tin</h2>
 
-      <form action="updateProfile" method="post">
+      <form action="editprofile" method="post" enctype="multipart/form-data">
         <div class="anhthe-item">
           <div class="anhthe">
             <label>Ảnh Thẻ</label>
             <img id="previewImage" src="${user.anhthe}" alt="" />
-            <input id="fileInput" type="file" accept="image/*" />
+            <input
+              id="fileInput"
+              name="fileInput"
+              type="file"
+              accept="image/*"
+            />
           </div>
         </div>
 
@@ -129,7 +134,7 @@ session="true" %>
         <input
           type="date"
           id="tuoi"
-          name="tuoi"
+          name="ngaysinh"
           value="${user.ngaysinh}"
           required
         />

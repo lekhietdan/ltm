@@ -1,8 +1,11 @@
 package com.example.model.dao;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import javax.servlet.http.HttpServletResponse;
 
 import com.example.model.bean.User;
 
@@ -73,5 +76,10 @@ public class UserDAO {
     public void addUser(User user) throws ClassNotFoundException, SQLException{
         DB_DAO repository = new DB_DAO();
         repository.prepareStatement(user);
+    }
+
+    public void updateUser(User user, String username, HttpServletResponse response) throws ClassNotFoundException, SQLException, IOException{
+        DB_DAO repository = new DB_DAO();
+        repository.prepareStatement_Update(user, username, response);
     }
 }

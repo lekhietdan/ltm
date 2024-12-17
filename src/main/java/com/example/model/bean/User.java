@@ -51,5 +51,17 @@ public class User {
         this.anhthe = anhthe;
         this.role = role;
     }
+
+    public User(String ten, Date ngaysinh, String sdt, String diachi,
+            String truonghoc, String anhthe) {
+        this.ten = ten;
+        this.ngaysinh = ngaysinh;
+        this.sdt = sdt;
+        this.diachi = diachi;
+        this.truonghoc = truonghoc;
+        if(anhthe != null){
+            this.anhthe = anhthe;
+        }
+    }
     
 }

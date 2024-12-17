@@ -1,11 +1,14 @@
 package com.example.model.dao;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import javax.servlet.http.HttpServletResponse;
 
 import com.example.model.bean.User;
 
@@ -44,6 +47,46 @@ public class DB_DAO {
             System.out.println("Thêm user thành công!");
         } else {
             System.out.println("Không thể thêm user.");
+        }
+    }
+
+    public void prepareStatement_Update(User user, String username, HttpServletResponse response) throws SQLException, ClassNotFoundException, IOException{
+
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ltm", "root", "");
+        String sql = "";
+        PreparedStatement pstmt;
+
+        if (user.getAnhthe() != null) { 
+            sql = "UPDATE user SET ten = ?, ngaysinh = ?, sdt = ?, diachi = ?, truonghoc = ?, anhthe = ? WHERE username = ?";
+
+            pstmt = con.prepareStatement(sql);
+            pstmt.setString(1, user.getTen());
+            pstmt.setDate(2, user.getNgaysinh());
+            pstmt.setString(3, user.getSdt());
+            pstmt.setString(4, user.getDiachi());
+            pstmt.setString(5, user.getTruonghoc());
+            pstmt.setString(6, user.getAnhthe());
+            pstmt.setString(7, username);
+        }else{
+            sql = "UPDATE user SET ten = ?, ngaysinh = ?, sdt = ?, diachi = ?, truonghoc = ? WHERE username = ?";
+            pstmt = con.prepareStatement(sql);
+
+            pstmt.setString(1, user.getTen());
+            pstmt.setDate(2, user.getNgaysinh());
+            pstmt.setString(3, user.getSdt());
+            pstmt.setString(4, user.getDiachi());
+            pstmt.setString(5, user.getTruonghoc());
+            pstmt.setString(6, username);
+        }
+
+        int rowsAffected = pstmt.executeUpdate();
+
+        if (rowsAffected > 0) {
+            System.out.println("Cập nhật thành công");
+        } else {
+            System.out.println("Cập nhật không thành công");
+
         }
     }
 }
