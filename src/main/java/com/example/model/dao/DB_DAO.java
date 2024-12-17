@@ -13,6 +13,17 @@ import javax.servlet.http.HttpServletResponse;
 import com.example.model.bean.User;
 
 public class DB_DAO {
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/your_database_name"; 
+    private static final String DB_USERNAME = "your_username"; 
+    private static final String DB_PASSWORD = "your_password"; 
+    private static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver"; 
+
+    public Connection getConnection() throws ClassNotFoundException, SQLException {
+        Class.forName(DB_DRIVER); 
+        return DriverManager.getConnection(DB_URL, DB_USERNAME, DB_PASSWORD);
+    }
+
+
     public ResultSet executeQuery(String sql) throws SQLException, ClassNotFoundException{
 
         Class.forName("com.mysql.cj.jdbc.Driver");

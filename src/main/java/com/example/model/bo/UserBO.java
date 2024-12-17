@@ -25,6 +25,9 @@ public class UserBO {
     public User getUser(String username) throws ClassNotFoundException, SQLException{
         return userDAO.getUserByUserName(username);
     }
+    public User getUserByUserName(String username) throws ClassNotFoundException, SQLException{
+        return userDAO.getUserByUserName(username);  
+    }
 
     public void addUser(User user) throws ClassNotFoundException, SQLException{
         userDAO.addUser(user);

@@ -1,9 +1,12 @@
 package com.example.model.dao;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.Date;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -86,5 +89,30 @@ public class UserDAO {
     public void changePasswordUser(String newPassword, String username) throws ClassNotFoundException, SQLException, IOException{
         DB_DAO repository = new DB_DAO();
         repository.prepareStatement_UpdatePassword(newPassword, username);
+    }
+
+    public ArrayList<User> getAllUsers() throws SQLException, ClassNotFoundException {
+        ArrayList<User> users = new ArrayList<>();
+        String sql = "SELECT username, ten, ngaysinh FROM user";
+
+        DB_DAO repository = new DB_DAO();
+        try(Connection con = repository.getConnection();
+            PreparedStatement ps = con.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery()) {
+            while (rs.next()) {
+            users.add(new User(
+                rs.getString("username"),
+                null, //không lấy Mật khẩu 
+                rs.getString("ten"),
+                rs.getDate("ngaysinh"),
+                null, null, null, null, null
+            ));
+        }
+
+    }
+        if (users.isEmpty()) {
+            throw new SQLException("Không có người dùng nào trong cơ sở dữ liệu.");
+        }
+        return users;
     }
 }

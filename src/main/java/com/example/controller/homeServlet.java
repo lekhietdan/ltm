@@ -22,16 +22,17 @@ public class homeServlet extends HttpServlet {
             String username = (String) request.getSession().getAttribute("user");
             String role = (String) request.getSession().getAttribute("role");
             
-            if (username != null && role.equals("admin")) {
+            if (/*username != null && */role.equals("admin")) {
                 request.getRequestDispatcher("indexAdmin.jsp").forward(request, response);
             } 
-            else if (username != null && role.equals("user")) {
+            else if (/*username != null &&*/ role.equals("user")) {
                 request.getRequestDispatcher("indexUser.jsp").forward(request, response);
             }
             else {
-                request.getRequestDispatcher("indexGuest.jsp").forward(request, response);
+                request.getRequestDispatcher("guest.jsp").forward(request, response);
             }
 
+            
         } catch (Exception e) {
             e.printStackTrace();
         }
