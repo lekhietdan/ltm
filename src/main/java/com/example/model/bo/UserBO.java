@@ -31,6 +31,10 @@ public class UserBO {
     }
 
     public void updateUser(User user, String username, HttpServletResponse response) throws ClassNotFoundException, SQLException, IOException{
-        userDAO.updateUser(user, username, response);
+        userDAO.updateUser(user, username);
+    }
+
+    public void changePasswordUser(String newPassword, String username, HttpServletResponse response) throws ClassNotFoundException, SQLException, IOException{
+        userDAO.changePasswordUser(newPassword, username);
     }
 }

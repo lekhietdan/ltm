@@ -89,8 +89,19 @@ session="true" %>
         flex-direction: column;
       }
       img {
-        width: 12%;
+        width: 80px;
         border-radius: 8px;
+      }
+      .center-link {
+        text-align: center;
+        margin-top: 16px;
+      }
+      .center-link a {
+        color: #4caf50;
+        text-decoration: none;
+      }
+      .center-link a:hover {
+        text-decoration: underline;
       }
     </style>
   </head>
@@ -139,6 +150,9 @@ session="true" %>
       </div>
 
       <a href="editprofile" class="edit-btn">Chỉnh Sửa Thông Tin</a>
+      <div class="center-link">
+        <a href="/changepassword">Đổi mật khẩu</a>
+      </div>
     </div>
 
     <script>

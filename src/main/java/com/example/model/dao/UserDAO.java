@@ -78,8 +78,13 @@ public class UserDAO {
         repository.prepareStatement(user);
     }
 
-    public void updateUser(User user, String username, HttpServletResponse response) throws ClassNotFoundException, SQLException, IOException{
+    public void updateUser(User user, String username) throws ClassNotFoundException, SQLException, IOException{
         DB_DAO repository = new DB_DAO();
-        repository.prepareStatement_Update(user, username, response);
+        repository.prepareStatement_Update(user, username);
+    }
+
+    public void changePasswordUser(String newPassword, String username) throws ClassNotFoundException, SQLException, IOException{
+        DB_DAO repository = new DB_DAO();
+        repository.prepareStatement_UpdatePassword(newPassword, username);
     }
 }

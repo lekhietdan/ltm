@@ -50,7 +50,7 @@ public class DB_DAO {
         }
     }
 
-    public void prepareStatement_Update(User user, String username, HttpServletResponse response) throws SQLException, ClassNotFoundException, IOException{
+    public void prepareStatement_Update(User user, String username) throws SQLException, ClassNotFoundException, IOException{
 
         Class.forName("com.mysql.cj.jdbc.Driver");
         Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ltm", "root", "");
@@ -79,6 +79,28 @@ public class DB_DAO {
             pstmt.setString(5, user.getTruonghoc());
             pstmt.setString(6, username);
         }
+
+        int rowsAffected = pstmt.executeUpdate();
+
+        if (rowsAffected > 0) {
+            System.out.println("Cập nhật thành công");
+        } else {
+            System.out.println("Cập nhật không thành công");
+
+        }
+    }
+
+    public void prepareStatement_UpdatePassword(String newPassword, String username) throws SQLException, ClassNotFoundException, IOException{
+
+        Class.forName("com.mysql.cj.jdbc.Driver");
+        Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/ltm", "root", "");
+
+        String sql = "UPDATE user SET password = ? WHERE username = ?";
+        PreparedStatement pstmt = con.prepareStatement(sql);
+
+        pstmt.setString(1, newPassword);
+        pstmt.setString(2, username);
+        
 
         int rowsAffected = pstmt.executeUpdate();
 

@@ -6,7 +6,7 @@ session="true" %>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Chỉnh Sửa Thông Tin Cá Nhân</title>
+    <title>Đổi mật khẩu</title>
     <style>
       body {
         font-family: Arial, sans-serif;
@@ -59,10 +59,8 @@ session="true" %>
         margin-bottom: 8px;
         font-weight: bold;
       }
-      input[type="text"],
-      input[type="number"],
-      input[type="date"],
-      input[type="file"] {
+      input[type="password"],
+      input[type="submit"] {
         width: 95%;
         padding: 8px;
         margin-bottom: 12px;
@@ -71,24 +69,13 @@ session="true" %>
       }
       input[type="submit"] {
         width: 99.5%;
-        padding: 10px;
         background-color: #4caf50;
         color: white;
         border: none;
-        border-radius: 4px;
         cursor: pointer;
       }
       input[type="submit"]:hover {
         background-color: #45a049;
-      }
-      .anhthe {
-        display: flex;
-        flex-direction: column;
-      }
-      img {
-        width: 16%;
-        border-radius: 8px;
-        margin-bottom: 5px;
       }
       .center-link {
         text-align: center;
@@ -113,70 +100,30 @@ session="true" %>
       </nav>
     </header>
     <div class="edit-container">
-      <h2>Chỉnh Sửa Thông Tin</h2>
+      <h2>Đổi Mật Khẩu</h2>
 
-      <form action="editprofile" method="post" enctype="multipart/form-data">
-        <div class="anhthe-item">
-          <div class="anhthe">
-            <label>Ảnh Thẻ</label>
-            <img id="previewImage" src="${user.anhthe}" alt="" />
-            <input
-              id="fileInput"
-              name="fileInput"
-              type="file"
-              accept="image/*"
-            />
-          </div>
-        </div>
+      <form id="changePasswordForm">
+        <label for="currPassword">Mật khẩu hiện tại</label>
+        <input type="password" id="currPassword" name="currPassword" required />
 
-        <label for="username">Tên đăng nhập</label>
+        <label for="newPassword">Mật khẩu mới</label>
+        <input type="password" id="newPassword" name="newPassword" required />
+
+        <label for="confirmNewPassword">Nhập lại mật khẩu mới</label>
         <input
-          type="text"
-          id="username"
-          name="username"
-          value="${user.username}"
-          readonly
-        />
-
-        <label for="ten">Họ và tên</label>
-        <input type="text" id="ten" name="ten" value="${user.ten}" required />
-
-        <label for="tuoi">Ngày sinh</label>
-        <input
-          type="date"
-          id="tuoi"
-          name="ngaysinh"
-          value="${user.ngaysinh}"
+          type="password"
+          id="confirmNewPassword"
+          name="confirmNewPassword"
           required
         />
 
-        <label for="sdt">Số điện thoại</label>
-        <input type="text" id="sdt" name="sdt" value="${user.sdt}" required />
-
-        <label for="diachi">Địa chỉ</label>
-        <input
-          type="text"
-          id="diachi"
-          name="diachi"
-          value="${user.diachi}"
-          required
-        />
-
-        <label for="truonghoc">Trường học</label>
-        <input
-          type="text"
-          id="truonghoc"
-          name="truonghoc"
-          value="${user.truonghoc}"
-          required
-        />
-
-        <input type="submit" value="Cập Nhật" />
+        <input id="btn-update" type="submit" value="Cập Nhật" />
       </form>
       <div class="center-link">
         <a href="javascript:history.back()">Quay lại</a>
       </div>
     </div>
+
     <script>
       function logout() {
         const form = document.createElement("form");
@@ -186,19 +133,39 @@ session="true" %>
         form.submit();
       }
 
-      const fileInput = document.getElementById("fileInput");
-      const previewImage = document.getElementById("previewImage");
+      document.getElementById("changePasswordForm").onsubmit = function (
+        event
+      ) {
+        event.preventDefault();
 
-      fileInput.addEventListener("change", function (event) {
-        const file = event.target.files[0];
-        if (file) {
-          const reader = new FileReader();
-          reader.onload = function (e) {
-            previewImage.src = e.target.result; // Cập nhật src của ảnh thành nội dung file
-          };
-          reader.readAsDataURL(file); // Đọc file dưới dạng URL
+        const newPassword = document.getElementById("newPassword").value;
+        const confirmPassword =
+          document.getElementById("confirmNewPassword").value;
+
+        if (newPassword === confirmPassword) {
+          fetch("http://localhost:8080/changepassword", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: new URLSearchParams(new FormData(this)),
+          })
+            .then((response) => {
+              if (response.status === 400) {
+                throw new Error("Mật khẩu cũ không chính xác");
+              }
+            })
+            .then((data) => {
+              alert("Mật khẩu đã được cập nhật thành công!");
+              window.location.href = "profile";
+            })
+            .catch((error) => {
+              alert(error);
+            });
+        } else {
+          alert("Mật khẩu mới và Nhập lại mật khẩu không khớp!");
         }
-      });
+      };
     </script>
   </body>
 </html>

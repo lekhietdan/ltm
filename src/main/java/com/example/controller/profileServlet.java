@@ -1,8 +1,6 @@
 package com.example.controller;
 
 import java.io.IOException;
-import java.sql.Date;
-import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -32,35 +30,5 @@ public class profileServlet extends HttpServlet {
         request.getRequestDispatcher("userProfile.jsp").forward(request, response);
     }
 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String username = request.getParameter("username");
-        String password = request.getParameter("password");
-        String ten = request.getParameter("ten");
-        System.out.println(username);
-        System.out.println(password);
-        System.out.println(ten);
-
-        Date ngaysinh = Date.valueOf(request.getParameter("ngaysinh"));
-        String diachi = request.getParameter("diachi");
-        String sdt = request.getParameter("sdt");
-        String truonghoc = request.getParameter("truonghoc");
-
-        String anhthe = request.getParameter("anhthe");
-
-        if(anhthe == null){
-            anhthe = "https://sbcf.fr/wp-content/uploads/2018/03/sbcf-default-avatar.png";
-        }
-        
-        User newUser = new User(username, password, ten, ngaysinh, sdt, diachi, truonghoc, anhthe, anhthe);
-
-        try {
-            userBO.addUser(newUser);
-
-            response.sendRedirect("login"); 
-        } catch (Exception e) {
-            
-        }
-    }
 }
 
