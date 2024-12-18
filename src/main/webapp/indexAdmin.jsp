@@ -85,6 +85,37 @@ session="true" %>
       .logout-btn:hover {
         background-color: #d32f2f;
       }
+
+      table {
+        width: 80%;
+        margin: 20px auto;
+        border-collapse: collapse;
+        background: white;
+        box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+      }
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: left;
+      }
+      th {
+        background-color: #4caf50;
+        color: white;
+      }
+      tr:hover {
+        background-color: #f1f1f1;
+      }
+      .view-btn {
+        padding: 5px 10px;
+        background-color: #4caf50;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+      }
+      .view-btn:hover {
+        background-color: #45a049;
+      }
     </style>
   </head>
   <body>
@@ -136,6 +167,30 @@ session="true" %>
       </div> -->
 
       <!-- Nút đăng xuất -->
+      <h1 style="text-align: center">Danh sách người dùng</h1>
+
+      <table>
+        <thead>
+          <tr>
+            <th>Họ và Tên</th>
+            <th>Ngày Sinh</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <c:forEach var="user" items="${users}">
+            <tr>
+              <td>${user.ten}</td>
+              <td>${user.ngaysinh}</td>
+              <td>
+                <a class="view-btn" href="user-detail?username=${user.username}"
+                  >Xem thông tin</a
+                >
+              </td>
+            </tr>
+          </c:forEach>
+        </tbody>
+      </table>
     </div>
     <script>
       function logout() {

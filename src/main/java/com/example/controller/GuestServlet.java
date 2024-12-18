@@ -26,11 +26,13 @@ public class GuestServlet extends HttpServlet {
                 users = userDAO.getAllUsers();
                 //users = userBO.getAllUsers();
                 request.setAttribute("users", users);
+                //response.sendRedirect("home");
             } catch (SQLException | ClassNotFoundException e) {
                 e.printStackTrace();
                 request.setAttribute("errorMessage", "Không thể lấy danh sách người dùng: " + e.getMessage());
             }
             
             request.getRequestDispatcher("/guest.jsp").forward(request, response);
+            //request.getRequestDispatcher("/indexUser.jsp").forward(request, response);
     }
 }

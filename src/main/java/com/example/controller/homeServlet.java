@@ -23,6 +23,10 @@ public class homeServlet extends HttpServlet {
         try {
             String username = (String) request.getSession().getAttribute("user");
             String role = (String) request.getSession().getAttribute("role");
+
+            ArrayList<User> users = new ArrayList<>();
+            users = userBO.getAllUsers();
+            request.setAttribute("users", users);
             
             if (username != null && role.equals("admin")) {
                 request.getRequestDispatcher("indexAdmin.jsp").forward(request, response);
@@ -31,8 +35,8 @@ public class homeServlet extends HttpServlet {
                 request.getRequestDispatcher("indexUser.jsp").forward(request, response);
             }
             else {
-                
-                response.sendRedirect(request.getContextPath() + "/guest");
+                request.getRequestDispatcher("guest.jsp").forward(request, response);
+                //response.sendRedirect(request.getContextPath() + "/guest");
             }
 
         } catch (Exception e) {
