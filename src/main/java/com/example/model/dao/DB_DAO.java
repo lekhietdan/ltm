@@ -13,9 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.example.model.bean.User;
 
 public class DB_DAO {
-    private static final String DB_URL = "jdbc:mysql://localhost:3306/your_database_name"; 
-    private static final String DB_USERNAME = "your_username"; 
-    private static final String DB_PASSWORD = "your_password"; 
+    private static final String DB_URL = "jdbc:mysql://localhost:3306/ltm"; 
+    private static final String DB_USERNAME = "root"; 
+    private static final String DB_PASSWORD = ""; 
     private static final String DB_DRIVER = "com.mysql.cj.jdbc.Driver"; 
 
     public Connection getConnection() throws ClassNotFoundException, SQLException {
