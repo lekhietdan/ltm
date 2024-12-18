@@ -31,15 +31,8 @@ public class homeServlet extends HttpServlet {
                 request.getRequestDispatcher("indexUser.jsp").forward(request, response);
             }
             else {
-                // // Lấy danh sách người dùng từ UserBO hoặc UserDAO
-                // UserDAO userDAO = new UserDAO(); // hoặc dùng UserBO
-                 //ArrayList<User> users = userBO.getAllUsers();
-            
-                // // Đưa danh sách người dùng vào Request Attribute
-                 //request.setAttribute("users", users);
-            
-                // // Chuyển hướng đến guest.jsp
-                request.getRequestDispatcher("guest.jsp").forward(request, response);
+                
+                response.sendRedirect(request.getContextPath() + "/guest");
             }
 
         } catch (Exception e) {

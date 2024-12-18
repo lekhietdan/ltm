@@ -138,7 +138,7 @@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
           <tr>
             <th>Họ và Tên</th>
             <th>Ngày Sinh</th>
-            <th>Hành Động</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
