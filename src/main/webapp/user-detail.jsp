@@ -150,8 +150,15 @@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
       <h1>LTM</h1>
       <nav>
         <a href="home">Trang Chủ</a>
-        <a href="register">Đăng Ký</a>
-        <a href="login">Đăng Nhập</a>
+        <c:choose>
+          <c:when test="${empty sessionScope.user}">
+            <a href="register">Đăng Ký</a> <a href="login">Đăng Nhập</a>
+          </c:when>
+          <c:otherwise>
+            <a href="profile">${sessionScope.user}</a>
+            <a href="#" onclick="logout()">Đăng xuất</a>
+          </c:otherwise>
+        </c:choose>
       </nav>
     </header>
     <div class="container">
@@ -180,6 +187,24 @@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
         <label>Trường học</label>
         <span>${user.truonghoc}</span>
       </div>
+
+      <c:if test="${sessionScope.role == 'admin'}">
+        <div>
+          <a href="editprofile" class="edit-btn">Chỉnh Sửa Thông Tin</a>
+          <div class="center-link">
+            <a href="/changepassword">Đổi mật khẩu</a>
+          </div>
+        </div>
+      </c:if>
     </div>
   </body>
+  <script>
+    function logout() {
+      const form = document.createElement("form");
+      form.method = "POST";
+      form.action = "/LogoutServlet";
+      document.body.appendChild(form);
+      form.submit();
+    }
+  </script>
 </html>
