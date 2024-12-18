@@ -2,8 +2,8 @@ package com.example.controller;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.annotation.Annotation;
-import java.nio.file.Path;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Date;
 
@@ -20,12 +20,14 @@ import com.example.model.bo.UserBO;
 
 @WebServlet("/editprofile")
 @MultipartConfig(
-    fileSizeThreshold = 1024 * 1024 * 2, // 2MB
-    maxFileSize = 1024 * 1024 * 10,     // 10MB
-    maxRequestSize = 1024 * 1024 * 50,  // 50MB
-    location = "D:\\workspace\\bt-ltm\\ltm\\src\\main\\webapp\\images\\"
+    fileSizeThreshold = 1024 * 1024 * 2, 
+    maxFileSize = 1024 * 1024 * 10,     
+    maxRequestSize = 1024 * 1024 * 50  
 )
 public class editProfileServlet extends HttpServlet {
+
+    private static final String UPLOAD_DIR = "images";
+
     UserBO userBO = new UserBO();
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -66,10 +68,21 @@ public class editProfileServlet extends HttpServlet {
         String fileName = Paths.get(filePart.getSubmittedFileName()).getFileName().toString();
 
         String anhthe = null;
+
+        String uploadPath = getServletContext().getRealPath("") + File.separator + UPLOAD_DIR;
+        File uploadDir = new File(uploadPath);
+
+        if (!uploadDir.exists()) {
+            uploadDir.mkdir(); 
+        }
+
         if(!fileName.equals("")){
 
-            filePart.write(fileName);
-            anhthe = "images/" + fileName;
+            try (InputStream inputStream = filePart.getInputStream()) {
+                File file = new File(uploadDir, fileName);
+                Files.copy(inputStream, file.toPath());
+                anhthe = "images/" + fileName;
+            }
         }
 
 
