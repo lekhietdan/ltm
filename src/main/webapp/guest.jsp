@@ -7,12 +7,6 @@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Danh sách người dùng</title>
     <style>
-      body {
-        font-family: Arial, sans-serif;
-        background-color: #f4f4f4;
-        margin: 0;
-        padding: 0;
-      }
       table {
         width: 80%;
         margin: 20px auto;
@@ -127,6 +121,7 @@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
     <c:if test="${not empty errorMessage}">
       <div class="error">${errorMessage}</div>
     </c:if>
+
     <header>
       <h1>LTM</h1>
       <nav>
@@ -135,28 +130,31 @@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
         <a href="login">Đăng Nhập</a>
       </nav>
     </header>
-    <h1 style="text-align: center">Danh sách người dùng</h1>
-    <table>
-      <thead>
-        <tr>
-          <th>Họ và Tên</th>
-          <th>Ngày Sinh</th>
-          <th>Hành Động</th>
-        </tr>
-      </thead>
-      <tbody>
-        <c:forEach var="user" items="${users}">
+    <div class="container">
+      <h1 style="text-align: center">Danh sách người dùng</h1>
+
+      <table>
+        <thead>
           <tr>
-            <td>${user.ten}</td>
-            <td>${user.ngaysinh}</td>
-            <td>
-              <a class="view-btn" href="user-detail?username=${user.username}"
-                >Xem thông tin</a
-              >
-            </td>
+            <th>Họ và Tên</th>
+            <th>Ngày Sinh</th>
+            <th>Hành Động</th>
           </tr>
-        </c:forEach>
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          <c:forEach var="user" items="${users}">
+            <tr>
+              <td>${user.ten}</td>
+              <td>${user.ngaysinh}</td>
+              <td>
+                <a class="view-btn" href="user-detail?username=${user.username}"
+                  >Xem thông tin</a
+                >
+              </td>
+            </tr>
+          </c:forEach>
+        </tbody>
+      </table>
+    </div>
   </body>
 </html>

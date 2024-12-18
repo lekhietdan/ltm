@@ -2,6 +2,7 @@ package com.example.model.bo;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -39,5 +40,8 @@ public class UserBO {
 
     public void changePasswordUser(String newPassword, String username, HttpServletResponse response) throws ClassNotFoundException, SQLException, IOException{
         userDAO.changePasswordUser(newPassword, username);
+    }
+    public ArrayList<User> getAllUsers() throws ClassNotFoundException, SQLException, IOException{
+        return userDAO.getAllUsers();
     }
 }

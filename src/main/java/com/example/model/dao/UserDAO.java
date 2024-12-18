@@ -91,7 +91,7 @@ public class UserDAO {
         repository.prepareStatement_UpdatePassword(newPassword, username);
     }
 
-    public ArrayList<User> getAllUsers() throws SQLException, ClassNotFoundException {
+    public ArrayList<User> getAllUsers() throws SQLException, ClassNotFoundException,IOException {
         ArrayList<User> users = new ArrayList<>();
         String sql = "SELECT username, ten, ngaysinh FROM user";
 
